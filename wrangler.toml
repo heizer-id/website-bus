@@ -6,3 +6,5 @@ binding = "DB"
 database_name = "website-bus-db"
 database_id = "website-bus-db"
 migrations_dir = "./migrations"
+
+pages_build_output_dir = ".output/public"
