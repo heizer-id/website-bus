@@ -1,0 +1,26 @@
+{
+  "name": "website-bus",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "jose": "^6.2.2",
+    "nuxt": "^4.4.2",
+    "vue": "^3.5.31",
+    "vue-router": "^5.0.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260403.1",
+    "@types/node": "^25.5.2",
+    "@types/qrcode": "^1.5.6",
+    "nodemailer": "^8.0.4",
+    "qrcode": "^1.5.4",
+    "wrangler": "^4.80.0"
+  }
+}
