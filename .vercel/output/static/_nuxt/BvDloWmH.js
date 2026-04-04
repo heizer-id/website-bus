@@ -1,1 +1,0 @@
-import{ae as u,af as o,ag as s}from"./BxgqqTck.js";import{u as n}from"./BxZbM3hd.js";const l=u(async(f,m)=>{let e,t;const{fetchUser:i,isAuthenticated:a,isAdmin:r}=n();if(a.value||([e,t]=o(()=>i()),await e,t()),a.value)return r.value?s("/admin"):s("/")});export{l as default};

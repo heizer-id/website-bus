@@ -4,13 +4,16 @@ export default defineEventHandler(async (event) => {
   const token = getCookie(event, 'auth_token')
 
   if (!token) {
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+    // Return null user instead of 401 — 401 causes console errors on every
+    // page load for unauthenticated visitors, even though it's expected.
+    return { user: null }
   }
 
   const payload = await verifySessionToken(token)
   if (!payload) {
-    throw createError({ statusCode: 401, statusMessage: 'Token invalid' })
+    return { user: null }
   }
 
   return { user: payload }
 })
+

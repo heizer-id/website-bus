@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Premium Font Integration */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap');
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: 'Montserrat', serif;
+
+  /* Custom Modern Palette */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-800: #3730a3;
+  --color-primary-900: #312e81;
+}
+
+body {
+  font-family: var(--font-sans);
+  @apply text-slate-900 bg-slate-50 antialiased;
+}
+
+h1, h2, h3, .font-heading {
+  @apply tracking-tight font-extrabold;
+}
+
+/* Glassmorphism Utility */
+.glass-effect {
+  @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-sm transition;
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-slate-200/50 shadow-xl shadow-slate-200/20 hover:shadow-2xl hover:shadow-slate-200/30 transition-all duration-300;
+}
+
+/* Sophisticated Micro-animations */
+.hover-premium {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s ease;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+  transform: translateY(20px);
+}
+

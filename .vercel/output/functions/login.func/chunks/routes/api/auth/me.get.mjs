@@ -1,4 +1,4 @@
-import { d as defineEventHandler, j as getCookie, c as createError, v as verifySessionToken } from '../../../_/nitro.mjs';
+import { d as defineEventHandler, j as getCookie, v as verifySessionToken } from '../../../_/nitro.mjs';
 import 'jose';
 import 'node:http';
 import 'node:https';
@@ -13,11 +13,11 @@ import 'node:path';
 const me_get = defineEventHandler(async (event) => {
   const token = getCookie(event, "auth_token");
   if (!token) {
-    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+    return { user: null };
   }
   const payload = await verifySessionToken(token);
   if (!payload) {
-    throw createError({ statusCode: 401, statusMessage: "Token invalid" });
+    return { user: null };
   }
   return { user: payload };
 });

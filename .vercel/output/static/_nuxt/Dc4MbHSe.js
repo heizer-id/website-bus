@@ -1,1 +1,0 @@
-import{ae as u,af as i,ag as o}from"./BxgqqTck.js";import{u as f}from"./BxZbM3hd.js";const d=u(async(r,n)=>{let e,t;const{fetchUser:s,isAuthenticated:a}=f();if(a.value||([e,t]=i(()=>s()),await e,t()),!a.value)return o(`/login?redirect=${r.fullPath}`)});export{d as default};
