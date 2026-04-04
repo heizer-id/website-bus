@@ -5,5 +5,5 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "website-bus-db"
-database_id = "website-bus-db"
+database_id = "141f777c-4e81-4226-a9be-8356fd3ee8d4"
 migrations_dir = "./migrations"
