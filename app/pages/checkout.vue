@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -116,10 +116,18 @@ const { data, pending } = await useFetch<{ schedule: any }>('/api/seats', {
 })
 
 const formData = ref({
-  name: user.value?.name || '',
+  name: '',
   phone: '',
-  email: user.value?.email || ''
+  email: ''
 })
+
+// Populate form after user is loaded client-side (avoids hydration mismatch)
+watch(() => user.value, (u) => {
+  if (u) {
+    if (!formData.value.name) formData.value.name = u.name || ''
+    if (!formData.value.email) formData.value.email = u.email || ''
+  }
+}, { immediate: true })
 
 const loadingObj = ref(false)
 

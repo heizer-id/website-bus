@@ -43,7 +43,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 py-8 mt-auto">
       <UContainer class="text-center text-sm text-gray-500">
-        &copy; {{ new Date().getFullYear() }} PO Nusantara Bus. All rights reserved.
+        &copy; <ClientOnly>{{ new Date().getFullYear() }}<template #fallback>2025</template></ClientOnly> PO Nusantara Bus. All rights reserved.
       </UContainer>
     </footer>
   </div>
@@ -54,13 +54,16 @@ import { computed, onMounted, ref } from 'vue'
 
 // @ts-ignore
 const { user, isAuthenticated, fetchUser, isAdmin, logout } = useAuth()
-const pendingAuth = ref(true)
+// Start as false so SSR and initial client state match (no spinner on server)
+const pendingAuth = ref(false)
 
 onMounted(async () => {
    if (!isAuthenticated.value) {
+      // Show spinner only after hydration, preventing mismatch
+      pendingAuth.value = true
       await fetchUser()
+      pendingAuth.value = false
    }
-   pendingAuth.value = false
 })
 
 const handleLogout = async () => {
