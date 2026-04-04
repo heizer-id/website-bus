@@ -8,8 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "deploy": "nuxt build && wrangler pages deploy dist",
-    "deploy:only": "wrangler pages deploy dist"
+    "deploy": "nuxt build && vercel --prod",
+    "deploy:only": "vercel --prod"
   },
   "dependencies": {
     "jose": "^6.2.2",
@@ -24,6 +24,7 @@
     "@types/qrcode": "^1.5.6",
     "nodemailer": "^8.0.4",
     "qrcode": "^1.5.4",
+    "vercel": "^50.39.0",
     "wrangler": "^4.80.0"
   }
 }

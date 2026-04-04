@@ -1,18 +1,116 @@
-/// <reference types="@cloudflare/workers-types" />
-import type { H3Event } from 'h3'
+/**
+ * D1 REST API Wrapper
+ *
+ * Mimics the native D1Database interface (prepare/bind/all/first/run/batch)
+ * so all existing API handlers work without modification.
+ *
+ * Uses Cloudflare D1 HTTP API:
+ * POST /accounts/{account_id}/d1/database/{database_id}/query
+ */
 
-export function getDB(event: H3Event): D1Database {
-  // Try getting from event context natively (Cloudflare Pages / Workers)
-  let db = event.context.cloudflare?.env?.DB
+const CF_API = 'https://api.cloudflare.com/client/v4'
 
-  // Fallback for some local dev setups if process.env gets the binding
-  if (!db && process.env.DB) {
-    db = process.env.DB
+interface D1RestResult {
+  results: Record<string, unknown>[]
+  success: boolean
+  meta: Record<string, unknown>
+}
+
+async function d1Query(
+  sql: string,
+  params: unknown[] = []
+): Promise<D1RestResult> {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID
+  const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID
+  const apiToken = process.env.CLOUDFLARE_API_TOKEN
+
+  if (!accountId || !databaseId || !apiToken) {
+    throw new Error(
+      'Missing D1 env vars: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, CLOUDFLARE_API_TOKEN'
+    )
   }
 
-  if (!db) {
-    throw new Error('D1 Database "DB" is not bound. Ensure you run this via Wrangler or have local binding.')
+  const url = `${CF_API}/accounts/${accountId}/d1/database/${databaseId}/query`
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sql, params }),
+  })
+
+  const json: any = await res.json()
+
+  if (!json.success) {
+    const msg = json.errors?.[0]?.message || 'D1 REST API error'
+    throw new Error(`D1 query failed: ${msg}`)
   }
 
-  return db as D1Database
+  // D1 REST API returns array of result sets (one per statement)
+  const resultSet = json.result?.[0]
+  return {
+    results: resultSet?.results ?? [],
+    success: true,
+    meta: resultSet?.meta ?? {},
+  }
+}
+
+// ── Prepared Statement Builder ────────────────────────────────────────────────
+
+class D1PreparedStatement {
+  private sql: string
+  private params: unknown[]
+
+  constructor(sql: string, params: unknown[] = []) {
+    this.sql = sql
+    this.params = params
+  }
+
+  bind(...values: unknown[]): D1PreparedStatement {
+    return new D1PreparedStatement(this.sql, values)
+  }
+
+  async all<T = Record<string, unknown>>(): Promise<{ results: T[] }> {
+    const { results } = await d1Query(this.sql, this.params)
+    return { results: results as T[] }
+  }
+
+  async first<T = Record<string, unknown>>(): Promise<T | null> {
+    const { results } = await d1Query(this.sql, this.params)
+    return (results[0] as T) ?? null
+  }
+
+  async run(): Promise<{ success: boolean; meta: Record<string, unknown> }> {
+    const { success, meta } = await d1Query(this.sql, this.params)
+    return { success, meta }
+  }
+}
+
+// ── D1 Database Wrapper ───────────────────────────────────────────────────────
+
+class D1DatabaseWrapper {
+  prepare(sql: string): D1PreparedStatement {
+    return new D1PreparedStatement(sql)
+  }
+
+  async batch(statements: D1PreparedStatement[]): Promise<{ results: unknown[] }[]> {
+    // Execute each statement sequentially (D1 REST API batch support is limited)
+    const outcomes = []
+    for (const stmt of statements) {
+      outcomes.push(await stmt.run())
+    }
+    return outcomes as any
+  }
+}
+
+// ── Public API ────────────────────────────────────────────────────────────────
+
+/**
+ * Returns a D1 database wrapper.
+ * Works on Vercel (via REST) and still accepts an H3Event for backward compat.
+ */
+export function getDB(_event?: unknown): D1DatabaseWrapper {
+  return new D1DatabaseWrapper()
 }

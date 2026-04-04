@@ -4,6 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/ui'],
   nitro: {
-    preset: 'cloudflare-pages'
+    preset: 'vercel'
   }
 })
