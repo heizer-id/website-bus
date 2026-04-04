@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "nuxt build && wrangler pages deploy dist",
+    "deploy:only": "wrangler pages deploy dist"
   },
   "dependencies": {
     "jose": "^6.2.2",
