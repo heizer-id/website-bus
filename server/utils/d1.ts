@@ -16,27 +16,26 @@ interface D1RestResult {
   meta: Record<string, unknown>
 }
 
-import { createError } from '#imports'
-
 async function d1Query(
   sql: string,
   params: unknown[] = []
 ): Promise<D1RestResult> {
-  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID || ''
-  const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID || ''
-  const apiToken = process.env.CLOUDFLARE_API_TOKEN || ''
+  const config = useRuntimeConfig()
+  const accountId = config.cloudflareAccountId as string || ''
+  const databaseId = config.cloudflareD1DatabaseId as string || ''
+  const apiToken = config.cloudflareApiToken as string || ''
 
   if (!accountId || !databaseId || !apiToken) {
     throw createError({
       statusCode: 500,
-      statusMessage: 'Missing D1 env vars: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, CLOUDFLARE_API_TOKEN (Please set these in Vercel)'
+      statusMessage: 'D1 Credentials Missing! Silakan tambahkan CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, dan CLOUDFLARE_API_TOKEN di Environment Variables Vercel.'
     })
   }
 
   const url = `${CF_API}/accounts/${accountId}/d1/database/${databaseId}/query`
 
   try {
-    const res = await fetch(url, {
+    const res: any = await $fetch.raw(url, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiToken}`,
@@ -45,15 +44,12 @@ async function d1Query(
       body: JSON.stringify({ sql, params }),
     })
 
-    const text = await res.text()
+    const json: any = res._data
     
-    let json: any
-    try {
-      json = JSON.parse(text)
-    } catch {
-      throw createError({ 
-        statusCode: res.status === 200 ? 500 : res.status, 
-        statusMessage: `Cloudflare API returned non-JSON (${res.status}): ${text.substring(0, 100)}` 
+    if (!json || typeof json !== 'object') {
+       throw createError({ 
+        statusCode: 500, 
+        statusMessage: `Cloudflare API returned invalid response: ${JSON.stringify(json)}` 
       })
     }
 
