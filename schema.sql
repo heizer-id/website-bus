@@ -1,5 +1,5 @@
 -- Tabel armada/kendaraan
-CREATE TABLE buses (
+CREATE TABLE IF NOT EXISTS buses (
   id INTEGER PRIMARY KEY,
   name TEXT,           -- contoh: "Rosalia Indah Exec 1"
   class TEXT,          -- ekonomi/bisnis/eksekutif/sleeper
@@ -8,7 +8,7 @@ CREATE TABLE buses (
 );
 
 -- Tabel pengguna (Auth)
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY,
   full_name TEXT NOT NULL,
   email TEXT UNIQUE NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE users (
 );
 
 -- Tabel jadwal perjalanan
-CREATE TABLE schedules (
+CREATE TABLE IF NOT EXISTS schedules (
   id INTEGER PRIMARY KEY,
   bus_id INTEGER,
   route_from TEXT,
@@ -30,7 +30,7 @@ CREATE TABLE schedules (
 );
 
 -- Tabel pemesanan kursi (real-time lock)
-CREATE TABLE seat_bookings (
+CREATE TABLE IF NOT EXISTS seat_bookings (
   id INTEGER PRIMARY KEY,
   schedule_id INTEGER,
   seat_code TEXT,      -- "1A", "1B", dst
@@ -40,7 +40,7 @@ CREATE TABLE seat_bookings (
 );
 
 -- Tabel transaksi/booking
-CREATE TABLE transactions (
+CREATE TABLE IF NOT EXISTS transactions (
   id INTEGER PRIMARY KEY,
   booking_code TEXT UNIQUE,
   schedule_id INTEGER,
@@ -59,20 +59,23 @@ CREATE TABLE transactions (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Insert dummy data
-INSERT INTO buses (name, class, total_seats, seat_layout) VALUES 
-('Super Executive 1', 'eksekutif', 32, '{"rows": 8, "cols": 4, "aisle": 2}'),
-('Sleeper Royal', 'sleeper', 21, '{"rows": 7, "cols": 3, "aisle": 1}');
+-- CLEANUP (Order matters for Foreign Keys)
+DELETE FROM transactions;
+DELETE FROM seat_bookings;
+DELETE FROM schedules;
+DELETE FROM buses;
 
-INSERT INTO schedules (bus_id, route_from, route_to, departure_time, arrival_time, price) VALUES 
-(1, 'Jakarta', 'Surabaya', '2026-04-10T15:00:00Z', '2026-04-11T03:00:00Z', 450000),
-(2, 'Jakarta', 'Surabaya', '2026-04-10T18:00:00Z', '2026-04-11T06:00:00Z', 650000);
+-- SEED DATA
+INSERT INTO buses (id, name, class, total_seats, seat_layout) VALUES 
+(1, 'Super Executive 1', 'eksekutif', 32, '{"rows": 8, "cols": 4, "aisle": 2}'),
+(2, 'Sleeper Royal', 'sleeper', 21, '{"rows": 7, "cols": 3, "aisle": 1}');
 
--- Insert dummy users
--- password_hash for both is derived loosely. The actual API will hash it, but here we'll pre-fill a known hash if possible. 
--- Wait, WebCrypto API is used. Let's just create an endpoint that hashes it or insert clear text to be updated? 
--- No, for simplicity, I will just let the user register via the UI. But let's add an admin user with a simple pre-computed hash or handle clear text fallback for manual seeds.
--- I'll use a SHA-256 hash mechanism in auth.ts. Hash of 'admin123' is '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'.
+INSERT INTO schedules (id, bus_id, route_from, route_to, departure_time, arrival_time, price) VALUES 
+(1, 1, 'Jakarta', 'Surabaya', '2026-04-10T15:00:00Z', '2026-04-11T03:00:00Z', 450000),
+(2, 2, 'Jakarta', 'Surabaya', '2026-04-10T18:00:00Z', '2026-04-11T06:00:00Z', 650000),
+(3, 1, 'Jakarta', 'Surabaya', '2026-04-11T15:00:00Z', '2026-04-12T03:00:00Z', 450000),
+(4, 1, 'Surabaya', 'Jakarta', '2026-04-12T15:00:00Z', '2026-04-13T03:00:00Z', 450000);
 
-INSERT INTO users (full_name, email, password_hash, role) VALUES 
+-- Seed Admin User 
+INSERT OR IGNORE INTO users (full_name, email, password_hash, role) VALUES 
 ('System Administrator', 'admin@nusantarabus.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin');

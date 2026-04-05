@@ -1,29 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap');
 @import "tailwindcss";
 @import "@nuxt/ui";
 
 /* Premium Font Integration */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@800;900&display=swap');
 
 :root {
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: 'Montserrat', serif;
 
   /* Custom Modern Palette */
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
+  --color-primary-50: #f5f7ff;
+  --color-primary-100: #ebf0fe;
+  --color-primary-200: #cbd9fd;
+  --color-primary-300: #8da9fc;
+  --color-primary-400: #6d8bf8;
+  --color-primary-500: #4f46e5;
+  --color-primary-600: #4338ca;
+  --color-primary-700: #3730a3;
+  --color-primary-800: #312e81;
+  --color-primary-900: #1e1b4b; /* Deeper Navy */
+  --color-primary-950: #0f172a; /* Midnight */
 }
 
 body {
   font-family: var(--font-sans);
-  @apply text-slate-900 bg-slate-50 antialiased;
+  @apply text-slate-900 bg-slate-50 antialiased selection:bg-indigo-100 selection:text-indigo-900;
 }
 
 h1, h2, h3, .font-heading {
@@ -32,16 +33,61 @@ h1, h2, h3, .font-heading {
 
 /* Glassmorphism Utility */
 .glass-effect {
-  @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-sm transition;
+  @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] transition-all duration-300;
 }
 
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-slate-200/50 shadow-xl shadow-slate-200/20 hover:shadow-2xl hover:shadow-slate-200/30 transition-all duration-300;
+  @apply bg-white/50 backdrop-blur-xl border border-white/60 shadow-[0_12px_40px_0_rgba(31,38,135,0.05)] hover:shadow-[0_20px_50px_0_rgba(31,38,135,0.1)] transition-all duration-500;
+}
+
+.glass-dark {
+  @apply bg-slate-900/40 backdrop-blur-xl border border-white/10 shadow-2xl;
 }
 
 /* Sophisticated Micro-animations */
 .hover-premium {
-  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95;
+  @apply transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 active:translate-y-0.5;
+}
+
+@keyframes animate-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bg-animate-gradient {
+  background: linear-gradient(-45deg, #1e1b4b, #312e81, #4f46e5, #0f172a);
+  background-size: 400% 400%;
+  animation: animate-gradient 15s ease infinite;
+}
+
+/* Premium Form Elements */
+.premium-input {
+  @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 text-white font-bold rounded-2xl transition-all duration-300;
+  @apply placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-400/50 focus:bg-slate-900/80;
+}
+
+/* Override native browser icons for dark theme */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.5);
+  cursor: pointer;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+  background-position: right 0.75rem center !important;
+  background-repeat: no-repeat !important;
+  background-size: 1.5em 1.5em !important;
+  padding-right: 2.5rem !important;
+  @apply appearance-none;
+}
+
+.premium-card {
+  @apply bg-white/70 backdrop-blur-3xl border border-white/40 shadow-2xl rounded-[3rem] p-12 transition-all duration-500;
+}
+
+.premium-card-dark {
+  @apply bg-slate-900/40 backdrop-blur-3xl border border-white/5 shadow-2xl rounded-[3rem] p-12 transition-all duration-500;
 }
 
 .page-enter-active,

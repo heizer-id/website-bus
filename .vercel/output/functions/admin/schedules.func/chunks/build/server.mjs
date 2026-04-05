@@ -620,19 +620,19 @@ const _routes = [
   {
     name: "cek-booking",
     path: "/cek-booking",
-    component: () => import('./cek-booking-Ha5UBjC8.mjs')
+    component: () => import('./cek-booking-DSXClOZZ.mjs')
   },
   {
     name: "checkout",
     path: "/checkout",
     meta: { "middleware": "auth" },
-    component: () => import('./checkout-ulKLvDcA.mjs')
+    component: () => import('./checkout-DVVbgs_T.mjs')
   },
   {
     name: "login",
     path: "/login",
     meta: { "middleware": "guest" },
-    component: () => import('./login-Cu7NqvTP.mjs')
+    component: () => import('./login-ByhKMY0A.mjs')
   },
   {
     name: "payment-success",
@@ -643,17 +643,17 @@ const _routes = [
     name: "register",
     path: "/register",
     meta: { "middleware": "guest" },
-    component: () => import('./register-ieFch21c.mjs')
+    component: () => import('./register-BuiIv7jl.mjs')
   },
   {
     name: "search-results",
     path: "/search-results",
-    component: () => import('./search-results-DDZ1epzP.mjs')
+    component: () => import('./search-results-90k7aewF.mjs')
   },
   {
     name: "seat-selection",
     path: "/seat-selection",
-    component: () => import('./seat-selection-BsdPExyA.mjs')
+    component: () => import('./seat-selection-Dc_gnQpH.mjs')
   },
   {
     name: "user",
@@ -664,7 +664,7 @@ const _routes = [
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CeHhUzBx.mjs')
+    component: () => import('./index-CDWOFH1r.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -1514,7 +1514,7 @@ const plugins = [
 ];
 const layouts = {
   admin: defineAsyncComponent(() => import('./admin-bGDRahlq.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-83Y-OzjD.mjs').then((m) => m.default || m))
+  default: defineAsyncComponent(() => import('./default-C_l-Eaz2.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({

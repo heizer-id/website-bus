@@ -1,9 +1,12 @@
 <template>
   <div class="space-y-12 max-w-6xl mx-auto px-4 pb-24">
     <!-- Page Header -->
-    <div class="space-y-2 text-center md:text-left animate-in fade-in slide-in-from-top-4 duration-700">
-      <h1 class="text-3xl font-black text-slate-900 tracking-tight" style="font-family: var(--font-serif)">Konfirmasi Pesanan</h1>
-      <p class="text-slate-500 font-medium">Langkah terakhir untuk mengamankan perjalanan Anda.</p>
+    <div class="space-y-3 text-center md:text-left mb-16 px-4 animate-in fade-in slide-in-from-top-6 duration-1000">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-400/20 text-[10px] font-black uppercase tracking-widest text-indigo-500">
+         Final Confirmation Step
+      </div>
+      <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter" style="font-family: var(--font-serif)">Secure Your <span class="text-indigo-600">Journey.</span></h1>
+      <p class="text-slate-500 text-lg font-medium leading-relaxed">The final step to confirm your elite travel experience across Nusantara.</p>
     </div>
 
     <div v-if="pending" class="flex flex-col items-center justify-center p-24 bg-white rounded-[3rem] border border-slate-100 shadow-sm gap-4">
@@ -20,52 +23,57 @@
     <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-10">
       
       <!-- Form Area -->
-      <div class="lg:col-span-8 space-y-8">
-        <div class="bg-white border border-slate-100 rounded-[3rem] p-10 shadow-sm relative overflow-hidden">
-          <div class="absolute -right-20 top-0 w-64 h-64 bg-slate-50 rounded-full blur-[100px]"></div>
+      <div class="lg:col-span-8 space-y-10">
+        <div class="bg-white/70 backdrop-blur-3xl border border-white/60 rounded-[4rem] p-12 md:p-16 shadow-2xl shadow-indigo-900/5 relative overflow-hidden">
+          <div class="absolute -right-20 top-0 w-80 h-80 bg-indigo-50/30 rounded-full blur-[120px]"></div>
           
-          <div class="relative z-10 space-y-10">
-            <h2 class="text-xl font-black text-slate-900 border-b border-slate-100 pb-6 mb-6 flex items-center gap-3">
-              <div class="bg-indigo-100 p-2 rounded-xl">
-                 <UIcon name="i-heroicons-user" class="text-indigo-600 w-5 h-5" /> 
-              </div>
-              Data Penumpang & Kontak
-            </h2>
+          <div class="relative z-10 space-y-12">
+            <div class="flex items-center gap-4 border-b border-slate-100/50 pb-8 mb-8">
+               <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                  <UIcon name="i-heroicons-user" class="text-white w-6 h-6" /> 
+               </div>
+               <div>
+                  <h2 class="text-2xl font-black text-slate-900 tracking-tight">Passenger & Contact</h2>
+                  <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Required for E-Ticket authentication</p>
+               </div>
+            </div>
             
-            <form @submit.prevent="submitBooking" class="space-y-8">
-              <div class="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100/50 flex items-start gap-4">
-                <UIcon name="i-heroicons-paper-airplane" class="w-6 h-6 text-indigo-600 shrink-0 mt-0.5" />
-                <p class="text-sm text-indigo-900 leading-relaxed">
-                  <span class="font-bold">Penting:</span> Tiket elektronik (E-Ticket) akan dikirimkan ke email tujuan. Pastikan data yang Anda masukkan sudah benar.
-                </p>
+            <form @submit.prevent="submitBooking" class="space-y-12">
+              <div class="bg-indigo-950 p-8 rounded-[2.5rem] border border-white/10 flex items-start gap-6 shadow-2xl shadow-indigo-950/20 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <UIcon name="i-heroicons-sparkles" class="w-8 h-8 text-indigo-400 shrink-0 mt-1" />
+                <div class="space-y-2 relative z-10">
+                   <p class="text-lg font-bold text-white tracking-tight">Elite Travel Assurance</p>
+                   <p class="text-indigo-200/60 text-sm leading-relaxed">Your digital credentials and ticket will be securely transmitted to the provided email. Please verify accuracy before proceeding.</p>
+                </div>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-2">
-                  <label class="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">Nama Lengkap Pemesan</label>
-                  <UInput v-model="formData.name" placeholder="Masukan Nama Sesuai KTP" size="xl" class="w-full" />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-3">
+                  <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] pl-1">Full Legal Name</label>
+                  <UInput v-model="formData.name" placeholder="As per Identity Card" size="xl" :ui="{ base: 'bg-slate-50 border-slate-200 rounded-2xl font-bold h-14 focus:ring-2 focus:ring-indigo-500/50' }" />
                 </div>
                 
-                <div class="space-y-2">
-                  <label class="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">Nomor Telepon/WA</label>
-                  <UInput v-model="formData.phone" type="tel" placeholder="08xxxxxxxx" size="xl" class="w-full" />
+                <div class="space-y-3">
+                  <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] pl-1">Contact Intelligence (WA)</label>
+                  <UInput v-model="formData.phone" type="tel" placeholder="+62xxxxxxxx" size="xl" :ui="{ base: 'bg-slate-50 border-slate-200 rounded-2xl font-bold h-14 focus:ring-2 focus:ring-indigo-500/50' }" />
                 </div>
 
-                <div class="md:col-span-2 space-y-2">
-                  <label class="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">Alamat Email</label>
-                  <UInput v-model="formData.email" type="email" placeholder="email@contoh.com" size="xl" class="w-full" />
+                <div class="md:col-span-2 space-y-3">
+                  <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] pl-1">Secured Email Address</label>
+                  <UInput v-model="formData.email" type="email" placeholder="client@luxurydomain.com" size="xl" :ui="{ base: 'bg-slate-50 border-slate-200 rounded-2xl font-bold h-14 focus:ring-2 focus:ring-indigo-500/50' }" />
                 </div>
               </div>
 
-              <div class="pt-8 border-t border-slate-100">
+              <div class="pt-8 border-t border-slate-100/50">
                 <UButton 
                   type="submit" 
                   :loading="loadingObj" 
                   size="xl" block color="primary" 
-                  class="font-black py-5 rounded-[2rem] shadow-xl shadow-indigo-100 hover-premium text-lg"
-                  icon="i-heroicons-credit-card"
+                  class="font-black py-6 rounded-[2rem] shadow-2xl shadow-indigo-600/40 hover-premium text-xs uppercase tracking-[0.2em]"
+                  icon="i-heroicons-shield-check"
                 >
-                  Bayar Sekarang
+                  Authorized Payment
                 </UButton>
               </div>
             </form>
@@ -74,38 +82,43 @@
       </div>
 
       <!-- Order Summary -->
-      <div class="lg:col-span-4 h-fit sticky top-28">
-        <div class="glass-card rounded-[3rem] p-8 md:p-10 space-y-8 shadow-indigo-500/5 border-indigo-100/30">
-          <h3 class="text-xl font-black text-slate-900 border-b border-slate-100 pb-6">Ringkasan Pesanan</h3>
+      <div class="lg:col-span-4 h-fit sticky top-32">
+        <div class="bg-indigo-950/90 backdrop-blur-3xl rounded-[3rem] p-10 md:p-12 space-y-10 shadow-2xl shadow-indigo-950/20 border border-white/10 text-white">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-6 mb-8">
+             <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
+                <UIcon name="i-heroicons-ticket" class="w-5 h-5 text-indigo-100" />
+             </div>
+             <h3 class="text-xl font-black tracking-tight" style="font-family: var(--font-serif)">Elite Itinerary</h3>
+          </div>
           
-          <div class="space-y-6">
-             <div class="flex flex-col gap-1">
-                <div class="text-[10px] text-slate-400 font-black tracking-widest uppercase">Rute Perjalanan</div>
-                <div class="font-black text-slate-900">{{ data.schedule.route_from }} &rarr; {{ data.schedule.route_to }}</div>
-                <div class="text-xs font-bold text-indigo-600 mt-0.5">{{ timeFormat(data.schedule.departure_time) }}</div>
+          <div class="space-y-10">
+             <div class="flex flex-col gap-3">
+                <div class="text-[10px] text-indigo-300/40 font-black tracking-[0.2em] uppercase">Journey Essence</div>
+                <div class="font-black text-white text-xl leading-tight tracking-tight">{{ data?.schedule?.route_from }} <span class="text-indigo-400">&rarr;</span> {{ data?.schedule?.route_to }}</div>
+                <div class="text-[10px] font-black text-indigo-400 uppercase tracking-widest mt-1 px-3 py-1 bg-indigo-900/40 rounded-full w-fit">{{ timeFormat(data?.schedule?.departure_time) }}</div>
              </div>
-
-             <div class="flex flex-col gap-1">
-                <div class="text-[10px] text-slate-400 font-black tracking-widest uppercase">Unit Armada</div>
-                <div class="font-black text-slate-900">{{ data.schedule.bus_name }}</div>
-                <div class="inline-flex"><UBadge color="info" variant="solid" class="px-2 py-0.5 rounded-lg text-[9px] uppercase font-black">{{ data.schedule.bus_class }}</UBadge></div>
+ 
+             <div class="flex flex-col gap-3">
+                <div class="text-[10px] text-indigo-300/40 font-black tracking-[0.2em] uppercase">Fleet & Cabin</div>
+                <div class="font-black text-white tracking-tight">{{ data?.schedule?.bus_name }}</div>
+                <div class="inline-flex"><UBadge color="primary" variant="solid" class="px-3 py-1 rounded-full text-[9px] uppercase font-black tracking-widest">{{ data?.schedule?.bus_class }} Elite</UBadge></div>
              </div>
-
-             <div class="flex flex-col gap-1">
-                <div class="text-[10px] text-slate-400 font-black tracking-widest uppercase">Pilihan Kursi</div>
+ 
+             <div class="flex flex-col gap-3">
+                <div class="text-[10px] text-indigo-300/40 font-black tracking-[0.2em] uppercase">Private Placements</div>
                 <div class="flex flex-wrap gap-2 mt-1">
-                   <span v-for="seat in seatList" :key="seat" class="bg-indigo-50 text-indigo-700 font-black px-3 py-1.5 rounded-xl border border-indigo-100 text-xs">{{ seat }}</span>
+                   <span v-for="seat in seatList" :key="seat" class="bg-indigo-600/50 backdrop-blur-sm text-white font-black px-4 py-2 rounded-xl border border-white/5 text-xs shadow-lg">{{ seat }}</span>
                 </div>
              </div>
-
-             <div class="pt-6 border-t border-slate-100 space-y-4">
-                <div class="flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-widest">
-                  <span>Subtotal</span>
-                  <span>{{ formatRupiah(data.schedule.price) }} x{{ seatList.length }}</span>
+ 
+             <div class="pt-10 border-t border-white/10 space-y-6">
+                <div class="flex justify-between items-center text-[10px] font-black text-indigo-300/40 uppercase tracking-[0.2em]">
+                  <span>Indiv. Fare</span>
+                  <span>{{ formatRupiah(data?.schedule?.price || 0) }} &times;{{ seatList.length }}</span>
                 </div>
-                <div class="flex justify-between items-end">
-                  <span class="text-sm font-black text-slate-900">Total Tagihan</span>
-                  <div class="text-3xl font-black text-indigo-600 tracking-tight">{{ formatRupiah(data.schedule.price * seatList.length) }}</div>
+                <div class="flex flex-col gap-2">
+                  <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest pl-0.5">Total Confirmation</span>
+                  <div class="text-5xl font-black text-white tracking-tighter" style="font-family: var(--font-serif)">{{ formatRupiah((data?.schedule?.price || 0) * seatList.length) }}</div>
                 </div>
              </div>
           </div>

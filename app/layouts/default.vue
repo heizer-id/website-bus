@@ -1,23 +1,23 @@
 <template>
   <div class="min-h-screen bg-slate-50 flex flex-col selection:bg-indigo-100 selection:text-indigo-700">
     <!-- Navbar / Header -->
-    <header class="fixed top-0 inset-x-0 z-[60] py-4 transition-all duration-300">
+    <header class="fixed top-6 inset-x-0 z-[60] transition-all duration-500">
       <UContainer>
-        <nav class="glass-effect rounded-2xl px-6 h-16 flex items-center justify-between shadow-lg shadow-indigo-500/5">
-          <NuxtLink to="/" class="flex items-center gap-2 group">
-            <div class="bg-indigo-600 p-1.5 rounded-lg group-hover:rotate-12 transition-transform duration-300">
+        <nav class="glass-effect rounded-full px-8 h-20 flex items-center justify-between shadow-2xl shadow-indigo-900/10 border-white/20">
+          <NuxtLink to="/" class="flex items-center gap-3 group">
+            <div class="bg-indigo-600 p-2 rounded-xl group-hover:rotate-[15deg] group-hover:scale-110 transition-all duration-500 shadow-lg shadow-indigo-500/20">
               <UIcon name="i-heroicons-paper-airplane" class="w-6 h-6 text-white" />
             </div>
             <span class="text-2xl font-black text-slate-900 tracking-tighter" style="font-family: var(--font-serif)">NUSA<span class="text-indigo-600">BUS</span></span>
           </NuxtLink>
           
-          <div class="flex items-center gap-2 md:gap-6">
-            <div class="hidden md:flex items-center gap-6 mr-4">
-              <NuxtLink to="/" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition tracking-wide">Beranda</NuxtLink>
-              <NuxtLink to="/cek-booking" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition tracking-wide">Cek Tiket</NuxtLink>
+          <div class="flex items-center gap-4 md:gap-8">
+            <div class="hidden md:flex items-center gap-8 mr-6">
+              <NuxtLink to="/" class="text-xs font-black uppercase tracking-[0.2em] text-slate-900/60 hover:text-indigo-600 transition-all duration-300">Beranda</NuxtLink>
+              <NuxtLink to="/cek-booking" class="text-xs font-black uppercase tracking-[0.2em] text-slate-900/60 hover:text-indigo-600 transition-all duration-300">Cek Tiket</NuxtLink>
             </div>
             
-            <div class="h-6 w-px bg-slate-200 mx-2 hidden md:block"></div>
+            <div class="h-8 w-px bg-slate-200/50 mx-2 hidden md:block"></div>
 
             <template v-if="pendingAuth">
                <UIcon name="i-heroicons-arrow-path" class="animate-spin w-5 h-5 text-indigo-500" />
@@ -25,21 +25,17 @@
             <template v-else>
               <!-- User is not logged in -->
               <template v-if="!isAuthenticated">
-                <UButton to="/login" variant="ghost" color="neutral" class="font-bold">Masuk</UButton>
-                <UButton to="/register" color="primary" class="font-bold px-6 shadow-md shadow-indigo-200">Daftar</UButton>
+                <UButton to="/login" variant="ghost" color="neutral" class="font-black text-[10px] uppercase tracking-[0.2em] text-slate-900 hover:bg-slate-100/50">Masuk</UButton>
+                <UButton to="/register" color="primary" class="font-black px-10 py-3 rounded-full shadow-2xl shadow-indigo-200 hover-premium text-[10px] uppercase tracking-[0.25em]">Daftar</UButton>
               </template>
 
               <!-- User is logged in -->
               <template v-else>
-                <UDropdown :items="items" :popper="{ placement: 'bottom-end', offsetDistance: 12 }">
-                  <UButton variant="soft" color="primary" class="font-bold border border-indigo-100">
-                    <template #leading>
-                      <UAvatar :alt="user?.name" size="2xs" :ui="{ wrapper: 'bg-indigo-100 text-indigo-700' }" />
-                    </template>
-                    <span class="truncate max-w-[80px] md:max-w-[120px]">{{ user?.name?.split(' ')[0] || 'User' }}</span>
-                    <template #trailing>
-                      <UIcon name="i-heroicons-chevron-down-20-solid" class="w-4 h-4 opacity-50" />
-                    </template>
+                <UDropdown :items="items" :popper="{ placement: 'bottom-end', offsetDistance: 16 }">
+                  <UButton variant="soft" color="primary" class="font-bold border-2 border-indigo-50/50 rounded-2xl px-4 flex items-center gap-3">
+                    <UAvatar :alt="user?.name" size="2xs" :ui="{ wrapper: 'bg-indigo-100 text-indigo-700 ring-2 ring-white shadow-sm' }" />
+                    <span class="truncate max-w-[80px] md:max-w-[120px] text-xs uppercase tracking-widest">{{ user?.name?.split(' ')[0] || 'User' }}</span>
+                    <UIcon name="i-heroicons-chevron-down-20-solid" class="w-4 h-4 opacity-50" />
                   </UButton>
                 </UDropdown>
               </template>
@@ -55,58 +51,64 @@
     </main>
     
     <!-- Premium Footer -->
-    <footer class="bg-white border-t border-slate-100 pt-16 pb-8 mt-20">
-      <UContainer>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div class="md:col-span-1 space-y-6">
-            <div class="flex items-center gap-2">
-              <span class="text-2xl font-black text-slate-900 tracking-tighter" style="font-family: var(--font-serif)">NUSA<span class="text-indigo-600">BUS</span></span>
+    <footer class="bg-indigo-950 text-slate-300 pt-24 pb-12 mt-32 relative overflow-hidden">
+      <!-- Decor -->
+      <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent"></div>
+      
+      <UContainer class="relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
+          <div class="md:col-span-5 space-y-8">
+            <div class="flex items-center gap-3">
+              <div class="bg-indigo-600 p-2 rounded-xl">
+                 <UIcon name="i-heroicons-paper-airplane" class="w-6 h-6 text-white" />
+              </div>
+              <span class="text-3xl font-black text-white tracking-tighter" style="font-family: var(--font-serif)">NUSA<span class="text-indigo-400">BUS</span></span>
             </div>
-            <p class="text-slate-500 text-sm leading-relaxed">
-              Platform pemesanan tiket bus terpercaya di Indonesia. Kami menghubungkan Anda ke berbagai destinasi dengan layanan armada terbaik dan harga transparan.
+            <p class="text-slate-400 text-base leading-relaxed max-w-md">
+              Elite bus travel solutions across Nusantara. We redefine the classic bus journey with cutting-edge technology and uncompromising comfort for the modern traveler.
             </p>
-            <div class="flex items-center gap-4">
-               <UButton icon="i-simple-icons-facebook" variant="ghost" color="neutral" />
-               <UButton icon="i-simple-icons-instagram" variant="ghost" color="neutral" />
-               <UButton icon="i-simple-icons-x" variant="ghost" color="neutral" />
+            <div class="flex items-center gap-6">
+               <UButton icon="i-simple-icons-instagram" variant="ghost" color="neutral" class="hover:text-white transition-colors" />
+               <UButton icon="i-simple-icons-x" variant="ghost" color="neutral" class="hover:text-white transition-colors" />
+               <UButton icon="i-simple-icons-linkedin" variant="ghost" color="neutral" class="hover:text-white transition-colors" />
             </div>
           </div>
           
-          <div class="space-y-6">
-            <h4 class="font-bold text-slate-900 uppercase tracking-widest text-xs">Informasi</h4>
-            <ul class="space-y-3 text-sm text-slate-500">
-              <li><NuxtLink to="#" class="hover:text-indigo-600 transition">Tentang Kami</NuxtLink></li>
-              <li><NuxtLink to="#" class="hover:text-indigo-600 transition">Syarat & Ketentuan</NuxtLink></li>
-              <li><NuxtLink to="#" class="hover:text-indigo-600 transition">Kebijakan Privasi</NuxtLink></li>
-              <li><NuxtLink to="#" class="hover:text-indigo-600 transition">Hubungi Kami</NuxtLink></li>
+          <div class="md:col-span-2 space-y-8">
+            <h4 class="font-black text-white uppercase tracking-[0.2em] text-[10px]">Perusahaan</h4>
+            <ul class="space-y-4 text-sm font-medium">
+              <li><NuxtLink to="#" class="hover:text-indigo-400 Transition-all">About Us</NuxtLink></li>
+              <li><NuxtLink to="#" class="hover:text-indigo-400 Transition-all">Fleet Luxury</NuxtLink></li>
+              <li><NuxtLink to="#" class="hover:text-indigo-400 Transition-all">Routes List</NuxtLink></li>
             </ul>
           </div>
 
-          <div class="space-y-6">
-            <h4 class="font-bold text-slate-900 uppercase tracking-widest text-xs">Pemesanan</h4>
-            <ul class="space-y-3 text-sm text-slate-500">
-              <li><NuxtLink to="/" class="hover:text-indigo-600 transition">Cari Tiket</NuxtLink></li>
-              <li><NuxtLink to="/cek-booking" class="hover:text-indigo-600 transition">Cek Status Pesanan</NuxtLink></li>
-              <li><NuxtLink to="#" class="hover:text-indigo-600 transition">Bantuan</NuxtLink></li>
+          <div class="md:col-span-2 space-y-8">
+            <h4 class="font-black text-white uppercase tracking-[0.2em] text-[10px]">Layanan</h4>
+            <ul class="space-y-4 text-sm font-medium">
+              <li><NuxtLink to="/" class="hover:text-indigo-400 Transition-all">Pesan Tiket</NuxtLink></li>
+              <li><NuxtLink to="/cek-booking" class="hover:text-indigo-400 Transition-all">Check In Online</NuxtLink></li>
+              <li><NuxtLink to="#" class="hover:text-indigo-400 Transition-all">Bantuan VIP</NuxtLink></li>
             </ul>
           </div>
 
-          <div class="space-y-6">
-            <h4 class="font-bold text-slate-900 uppercase tracking-widest text-xs">Partner Pembayaran</h4>
-            <div class="grid grid-cols-3 gap-4 opacity-50 grayscale hover:grayscale-0 transition duration-500">
-               <div class="h-8 bg-slate-100 rounded flex items-center justify-center font-bold text-[10px] text-slate-400">DOKU</div>
-               <div class="h-8 bg-slate-100 rounded flex items-center justify-center font-bold text-[10px] text-slate-400">QRIS</div>
-               <div class="h-8 bg-slate-100 rounded flex items-center justify-center font-bold text-[10px] text-slate-400">BCA</div>
+          <div class="md:col-span-3 space-y-8">
+            <h4 class="font-black text-white uppercase tracking-[0.2em] text-[10px]">Eksklusif</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Dapatkan update rute terbaru dan diskon eksklusif langsung ke inbox anda.</p>
+            <div class="flex items-center gap-2">
+               <UInput placeholder="Email" class="flex-1" :ui="{ base: 'bg-slate-900 border-slate-800' }" />
+               <UButton color="primary" icon="i-heroicons-paper-airplane" />
             </div>
           </div>
         </div>
 
-        <div class="border-t border-slate-50 pt-8 text-center sm:flex sm:justify-between sm:text-left">
-          <p class="text-sm text-slate-400">
-            &copy; {{ new Date().getFullYear() }} PO Nusantara Bus. Seluruh hak cipta dilindungi.
+        <div class="border-t border-slate-800/50 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">
+            &copy; {{ new Date().getFullYear() }} NUSA BUS ELITE. ALL RIGHTS RESERVED.
           </p>
-          <div class="mt-4 sm:mt-0 flex gap-6 justify-center sm:justify-end text-xs text-slate-400">
-            <span>Powered by Nuxt 3 & D1 Database</span>
+          <div class="flex items-center gap-8 text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">
+            <NuxtLink to="#" class="hover:text-white transition">Privacy</NuxtLink>
+            <NuxtLink to="#" class="hover:text-white transition">Terms of Travel</NuxtLink>
           </div>
         </div>
       </UContainer>

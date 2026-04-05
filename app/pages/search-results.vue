@@ -31,57 +31,69 @@
     </div>
 
     <!-- Results List -->
-    <div v-else class="space-y-6">
-      <div v-for="schedule in sortedSchedules" :key="schedule.id" class="group relative bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 overflow-hidden">
-        <!-- Accent Glow -->
-        <div class="absolute -right-20 -top-20 w-40 h-40 bg-indigo-50/50 rounded-full blur-3xl group-hover:bg-indigo-100/50 transition-colors duration-500"></div>
+    <div v-else class="space-y-8">
+      <div v-for="schedule in sortedSchedules" :key="schedule.id" class="group relative bg-white/40 backdrop-blur-xl border border-white/60 rounded-[3.5rem] p-8 md:p-12 shadow-2xl shadow-indigo-950/5 hover:shadow-indigo-500/10 hover:border-indigo-200/50 transition-all duration-700 overflow-hidden">
+        
+        <!-- Animated Glow Decor -->
+        <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-50/50 rounded-full blur-[100px] group-hover:bg-indigo-400/20 transition-all duration-700"></div>
 
-        <div class="flex flex-col md:flex-row justify-between items-stretch gap-10">
+        <div class="flex flex-col lg:flex-row justify-between items-center gap-12 relative z-10">
           
-          <!-- Left: Bus & Route Info -->
-          <div class="flex-1 space-y-8">
-            <div class="flex items-center gap-4">
-               <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100">
-                  <UIcon name="i-heroicons-truck" class="w-6 h-6 text-slate-400 group-hover:text-indigo-600 transition-colors" />
-               </div>
-               <div>
-                  <h3 class="text-xl font-black text-slate-900 tracking-tight">{{ schedule.bus_name }}</h3>
-                  <UBadge :color="getClassColor(schedule.bus_class)" variant="solid" class="mt-1 px-2.5 py-0.5 rounded-lg text-[10px] uppercase font-black tracking-widest ring-4 ring-white shadow-sm">{{ schedule.bus_class }}</UBadge>
-               </div>
-            </div>
-            
-            <div class="flex items-center justify-between md:justify-start gap-8 md:gap-16">
-              <div class="space-y-1">
-                <div class="text-3xl font-black text-slate-900" style="font-family: var(--font-serif)">{{ timeFormat(schedule.departure_time) }}</div>
-                <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">{{ schedule.route_from }}</div>
-              </div>
+          <!-- Left: Fleet Class & Icon -->
+          <div class="flex flex-col items-center lg:items-start gap-4 min-w-[140px]">
+             <div class="w-20 h-20 bg-gradient-to-br from-indigo-50 to-white rounded-[2rem] flex items-center justify-center border border-indigo-100/50 shadow-inner group-hover:rotate-6 transition-transform duration-500">
+                <UIcon name="i-heroicons-truck" class="w-10 h-10 text-indigo-400 group-hover:text-indigo-600 transition-colors" />
+             </div>
+             <div class="text-center lg:text-left">
+                <div class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Fleet Class</div>
+                <UBadge :color="getClassColor(schedule.bus_class)" variant="solid" class="px-4 py-1.5 rounded-full text-[10px] uppercase font-black tracking-[0.15em] shadow-lg shadow-indigo-100 ring-4 ring-white">{{ schedule.bus_class }}</UBadge>
+             </div>
+          </div>
 
-              <div class="flex-1 max-w-[120px] flex flex-col items-center gap-2">
-                 <div class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Langsung</div>
-                 <div class="h-px bg-slate-200 w-full relative">
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-indigo-500 rounded-full ring-4 ring-indigo-50 group-hover:scale-125 transition-transform duration-500"></div>
-                 </div>
-                 <div class="flex items-center gap-1 text-[10px] font-bold text-indigo-400">
-                    <UIcon name="i-heroicons-bolt text-xs" />
-                    <span>Express</span>
-                 </div>
-              </div>
+          <!-- Middle: Journey Timeline -->
+          <div class="flex-1 w-full max-w-2xl px-4">
+             <div class="flex items-center justify-between gap-6 md:gap-12 relative h-24">
+                <!-- Departure -->
+                <div class="space-y-2 text-center md:text-left relative z-10">
+                   <div class="text-4xl md:text-5xl font-black text-slate-900 leading-none" style="font-family: var(--font-serif)">{{ timeFormat(schedule.departure_time) }}</div>
+                   <div class="flex flex-col">
+                      <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">{{ schedule.route_from }}</span>
+                      <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Terminal Pusat</span>
+                   </div>
+                </div>
 
-              <div class="space-y-1 text-right md:text-left">
-                <div class="text-3xl font-black text-slate-900" style="font-family: var(--font-serif)">{{ timeFormat(schedule.arrival_time) }}</div>
-                <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">{{ schedule.route_to }}</div>
-              </div>
-            </div>
+                <!-- Connector -->
+                <div class="flex-1 flex flex-col items-center gap-3">
+                   <div class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Direct</div>
+                   <div class="h-[2px] bg-slate-100 w-full relative">
+                      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-slate-300 rounded-full"></div>
+                      <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-indigo-500 rounded-full shadow-[0_0_10px_#6366f1]"></div>
+                      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 py-1 rounded-full border border-slate-100 shadow-sm">
+                         <UIcon name="i-heroicons-paper-airplane" class="w-4 h-4 text-indigo-400 group-hover:translate-x-1.5 transition-transform" />
+                      </div>
+                   </div>
+                   <div class="text-[10px] font-black text-indigo-400/60 uppercase tracking-widest">Nusa Elite Express</div>
+                </div>
+
+                <!-- Arrival -->
+                <div class="space-y-2 text-center md:text-right relative z-10">
+                   <div class="text-4xl md:text-5xl font-black text-slate-900 leading-none" style="font-family: var(--font-serif)">{{ timeFormat(schedule.arrival_time) }}</div>
+                   <div class="flex flex-col">
+                      <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">{{ schedule.route_to }}</span>
+                      <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Main Terminal</span>
+                   </div>
+                </div>
+             </div>
           </div>
           
-          <!-- Right: Pricing & Action -->
-          <div class="w-full md:w-56 flex flex-row md:flex-col justify-between items-center md:items-end gap-6 md:border-l border-slate-100 pl-0 md:pl-10 relative z-10">
-             <div class="text-right space-y-1">
-                <div class="text-sm font-bold text-slate-400 uppercase tracking-widest">Mulai Dari</div>
-                <div class="text-3xl font-black text-indigo-600">{{ formatRupiah(schedule.price) }}</div>
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-100" :class="getSeatsColor(schedule.total_seats - schedule.booked_seats)">
-                   <UIcon name="i-heroicons-users" class="w-3.5 h-3.5 opacity-50" />
-                   <span class="text-xs font-bold">Sisa {{ schedule.total_seats - schedule.booked_seats }} kursi</span>
+          <!-- Right: Action & Price -->
+          <div class="w-full lg:w-72 flex flex-col items-center lg:items-end gap-6 bg-slate-50/50 lg:bg-transparent p-6 lg:p-0 rounded-[2.5rem] lg:rounded-none lg:border-l border-indigo-50">
+             <div class="text-center lg:text-right space-y-1">
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Starting From</div>
+                <div class="text-4xl font-black text-indigo-600 tracking-tighter" style="font-family: var(--font-serif)">{{ formatRupiah(schedule.price) }}</div>
+                <div class="text-[10px] font-bold text-slate-500 bg-white shadow-sm ring-1 ring-slate-100 rounded-full px-4 py-1.5 mt-2 inline-flex items-center gap-2">
+                   <div :class="getSeatsColor(schedule.total_seats - schedule.booked_seats)" class="w-2 h-2 rounded-full animate-pulse"></div>
+                   <span>{{ schedule.total_seats - schedule.booked_seats }} Left</span>
                 </div>
              </div>
              
@@ -90,9 +102,10 @@
                 :disabled="(schedule.total_seats - schedule.booked_seats) < passengers"
                 color="primary" 
                 size="xl"
-                class="w-full md:w-auto font-black px-10 py-5 rounded-3xl shadow-xl shadow-indigo-200 hover-premium"
-                :label="(schedule.total_seats - schedule.booked_seats) < passengers ? 'Penuh' : 'Pilih Kursi'" 
-                icon-trailing="i-heroicons-arrow-right"
+                block
+                class="font-black py-5 rounded-[2rem] shadow-2xl shadow-indigo-100 hover-premium text-xs uppercase tracking-widest"
+                :label="(schedule.total_seats - schedule.booked_seats) < passengers ? 'Full' : 'Select Seat'" 
+                icon-trailing="i-heroicons-chevron-right"
               />
           </div>
 
