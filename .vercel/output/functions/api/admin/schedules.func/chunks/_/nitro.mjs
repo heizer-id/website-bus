@@ -2841,10 +2841,10 @@ function createNodeFetch() {
     return l(input, { ...nodeFetchOptions, ...init });
   };
 }
-const fetch$1 = globalThis.fetch ? (...args) => globalThis.fetch(...args) : createNodeFetch();
+const fetch = globalThis.fetch ? (...args) => globalThis.fetch(...args) : createNodeFetch();
 const Headers$1 = globalThis.Headers || s$1;
 const AbortController = globalThis.AbortController || i;
-const ofetch = createFetch({ fetch: fetch$1, Headers: Headers$1, AbortController });
+const ofetch = createFetch({ fetch, Headers: Headers$1, AbortController });
 const $fetch$1 = ofetch;
 
 function wrapToPromise(value) {
@@ -4652,7 +4652,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "68f81b62-c9ff-4ab8-b805-62eee25b59f5",
+    "buildId": "305b3f67-a301-4f57-af7f-98687910ea44",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -4686,6 +4686,9 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {},
+  "cloudflareAccountId": "abbe30519ec95afcd9ea3ba6aea93509",
+  "cloudflareD1DatabaseId": "141f777c-4e81-4226-a9be-8356fd3ee8d4",
+  "cloudflareApiToken": "cfut_djpKsqhqExiHTTYMwpn24WKAqmup77TOEI8lZK9B2cf64290",
   "icon": {
     "serverKnownCssClasses": []
   }
@@ -5221,34 +5224,47 @@ var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "sy
 const CF_API = "https://api.cloudflare.com/client/v4";
 async function d1Query(sql, params = []) {
   var _a, _b, _c, _d, _e;
-  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-  const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID;
-  const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+  const config = useRuntimeConfig();
+  const accountId = config.cloudflareAccountId || "";
+  const databaseId = config.cloudflareD1DatabaseId || "";
+  const apiToken = config.cloudflareApiToken || "";
   if (!accountId || !databaseId || !apiToken) {
-    throw new Error(
-      "Missing D1 env vars: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, CLOUDFLARE_API_TOKEN"
-    );
+    throw createError$1({
+      statusCode: 500,
+      statusMessage: "D1 Credentials Missing! Silakan tambahkan CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, dan CLOUDFLARE_API_TOKEN di Environment Variables Vercel."
+    });
   }
   const url = `${CF_API}/accounts/${accountId}/d1/database/${databaseId}/query`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiToken}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ sql, params })
-  });
-  const json = await res.json();
-  if (!json.success) {
-    const msg = ((_b = (_a = json.errors) == null ? void 0 : _a[0]) == null ? void 0 : _b.message) || "D1 REST API error";
-    throw new Error(`D1 query failed: ${msg}`);
+  try {
+    const res = await $fetch.raw(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ sql, params })
+    });
+    const json = res._data;
+    if (!json || typeof json !== "object") {
+      throw createError$1({
+        statusCode: 500,
+        statusMessage: `Cloudflare API returned invalid response: ${JSON.stringify(json)}`
+      });
+    }
+    if (!json.success) {
+      const msg = ((_b = (_a = json.errors) == null ? void 0 : _a[0]) == null ? void 0 : _b.message) || "D1 REST API error";
+      throw createError$1({ statusCode: 500, statusMessage: `D1 query failed: ${msg}` });
+    }
+    const resultSet = (_c = json.result) == null ? void 0 : _c[0];
+    return {
+      results: (_d = resultSet == null ? void 0 : resultSet.results) != null ? _d : [],
+      success: true,
+      meta: (_e = resultSet == null ? void 0 : resultSet.meta) != null ? _e : {}
+    };
+  } catch (error) {
+    if (error.statusCode) throw error;
+    throw createError$1({ statusCode: 500, statusMessage: error.message || "Fetch failed" });
   }
-  const resultSet = (_c = json.result) == null ? void 0 : _c[0];
-  return {
-    results: (_d = resultSet == null ? void 0 : resultSet.results) != null ? _d : [],
-    success: true,
-    meta: (_e = resultSet == null ? void 0 : resultSet.meta) != null ? _e : {}
-  };
 }
 class D1PreparedStatement {
   constructor(sql, params = []) {

@@ -597,74 +597,74 @@ const _routes = [
     name: "admin-buses",
     path: "/admin/buses",
     meta: { ...__nuxt_page_meta$3 || {}, ...{ "middleware": "admin" } },
-    component: () => import('./buses-DGhzC4Oa.mjs')
+    component: () => import('./buses-Bf17Gt8v.mjs')
   },
   {
     name: "admin-schedules",
     path: "/admin/schedules",
     meta: { ...__nuxt_page_meta$2 || {}, ...{ "middleware": "admin" } },
-    component: () => import('./schedules-CSpmL1Rg.mjs')
+    component: () => import('./schedules-BBifKBed.mjs')
   },
   {
     name: "admin-transactions",
     path: "/admin/transactions",
     meta: { ...__nuxt_page_meta$1 || {}, ...{ "middleware": "admin" } },
-    component: () => import('./transactions-BZW_Tr-h.mjs')
+    component: () => import('./transactions-BK7szHVI.mjs')
   },
   {
     name: "admin",
     path: "/admin",
     meta: { ...__nuxt_page_meta || {}, ...{ "middleware": "admin" } },
-    component: () => import('./index-B1riwsNN.mjs')
+    component: () => import('./index-PtCoG2JA.mjs')
   },
   {
     name: "cek-booking",
     path: "/cek-booking",
-    component: () => import('./cek-booking-CbO71NUR.mjs')
+    component: () => import('./cek-booking-Ha5UBjC8.mjs')
   },
   {
     name: "checkout",
     path: "/checkout",
     meta: { "middleware": "auth" },
-    component: () => import('./checkout-LAqiAN5i.mjs')
+    component: () => import('./checkout-ulKLvDcA.mjs')
   },
   {
     name: "login",
     path: "/login",
     meta: { "middleware": "guest" },
-    component: () => import('./login-CNjuw0KB.mjs')
+    component: () => import('./login-Cu7NqvTP.mjs')
   },
   {
     name: "payment-success",
     path: "/payment-success",
-    component: () => import('./payment-success-BUrdUL0O.mjs')
+    component: () => import('./payment-success-rIJeJg1T.mjs')
   },
   {
     name: "register",
     path: "/register",
     meta: { "middleware": "guest" },
-    component: () => import('./register-vaJbQq91.mjs')
+    component: () => import('./register-ieFch21c.mjs')
   },
   {
     name: "search-results",
     path: "/search-results",
-    component: () => import('./search-results-I9GXiDDE.mjs')
+    component: () => import('./search-results-DDZ1epzP.mjs')
   },
   {
     name: "seat-selection",
     path: "/seat-selection",
-    component: () => import('./seat-selection-CweC0vxh.mjs')
+    component: () => import('./seat-selection-BsdPExyA.mjs')
   },
   {
     name: "user",
     path: "/user",
     meta: { "middleware": "auth" },
-    component: () => import('./index-Bg7lGGQH.mjs')
+    component: () => import('./index-BiyVgnoC.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-gIS629lR.mjs')
+    component: () => import('./index-CeHhUzBx.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -1449,7 +1449,7 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyIcon = defineAsyncComponent(() => import('./index-BIiJQGKL.mjs').then((n) => n.i).then((r) => r["default"] || r.default || r));
+const LazyIcon = defineAsyncComponent(() => import('./index-D_Sc1HaS.mjs').then((n) => n.i).then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["Icon", LazyIcon]
 ];
@@ -1513,8 +1513,8 @@ const plugins = [
   colors_E7kSti5pGZ28QhUUurq6gGRU3l65WuXO_KJC3GQgzFo
 ];
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-eR3m3-GB.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-DSQnSUAw.mjs').then((m) => m.default || m))
+  admin: defineAsyncComponent(() => import('./admin-bGDRahlq.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-83Y-OzjD.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({
